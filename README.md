@@ -1,7 +1,6 @@
 # Gerenciador de Tarefas - Kanban Dinâmico e Seguro
 
-Bem-vindo ao repositório do projeto **Gerenciador de Tarefas**, uma aplicação robusta de gerenciamento de tarefas baseada em Django, agora refatorada para oferecer maior segurança, usabilidade e controle de acesso.
-
+Bem-vindo ao repositório do projeto **Gerenciador de Tarefas**, uma aplicação robusta de gerenciamento de tarefas baseada em Django.
 ### 📋 Kanban Dinâmico (Drag-and-Drop e Controle de Acesso)
 A interface de gerenciamento de tarefas foi transformada em um Kanban interativo:
 * **Drag-and-Drop:** Arraste e solte tarefas facilmente entre as colunas para atualizar seus status de forma fluida.
