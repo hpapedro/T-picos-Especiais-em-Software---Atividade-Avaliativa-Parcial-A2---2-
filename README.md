@@ -14,14 +14,6 @@ A interface de gerenciamento de tarefas foi transformada em um Kanban interativo
 
 ---
 
-## ⚙️ Instalação e Execução
-
-Siga o passo a passo abaixo para rodar o projeto localmente em sua máquina.
-
-### Pré-requisitos
-* Python 3.8+
-* Pip (Gerenciador de pacotes do Python)
-
 ## Passo a Passo de Instalação e Execução
 
 Siga os passos abaixo para rodar o projeto localmente em sua máquina.
