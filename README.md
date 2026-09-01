@@ -72,3 +72,15 @@ Abra o seu navegador web e acesse o endereço:
 3. Clique no botão **"Nova Tarefa"** no topo direito, preencha os dados (Título, Descrição, a quem será atribuída e o status inicial).
 4. No Kanban, você pode **arrastar e soltar** as tarefas entre as colunas para atualizar seus status automaticamente no banco de dados.
 5. Acesse a aba **Dashboard** no menu superior para ver as estatísticas gerais do projeto.
+
+## Painel Administrativo (Django Admin)
+O projeto conta com uma interface administrativa completa nativa do Django. Nela, é possível gerenciar todos os usuários, tarefas e redefinir senhas (caso algum usuário esqueça).
+
+Para utilizar:
+1. Certifique-se de que você criou um "Superusuário" executando o comando no terminal (com o `venv` ativo):
+```bash
+python manage.py createsuperuser
+```
+2. Acesse a rota administrativa no seu navegador: [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/)
+3. Faça login com as credenciais do superusuário.
+4. Para alterar a senha de um colega, clique em **Usuários**, selecione o usuário desejado e clique no link "alterar a senha" no topo do formulário.

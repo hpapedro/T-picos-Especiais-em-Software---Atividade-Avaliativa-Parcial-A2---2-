@@ -3,9 +3,9 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card border-dark shadow-sm mt-5">
-            <div class="card-header bg-dark text-white">
-                <h5 class="mb-0">Confirmar Exclusão</h5>
+        <div class="premium-card mt-5 text-center">
+            <div class="card-header bg-transparent border-0 pt-4 pb-0">
+                <h5 class="mb-0 fw-bold text-danger">Confirmar Exclusão</h5>
             </div>
             <div class="card-body p-4 text-center">
                 <h4 class="mb-4">Tem certeza que deseja excluir esta tarefa?</h4>
@@ -16,8 +16,8 @@
                 <form method="post">
                     {% csrf_token %}
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'detalhe_tarefa' tarefa.pk %}" class="btn btn-outline-secondary px-4">Cancelar</a>
-                        <button type="submit" class="btn btn-dark px-4">Sim, excluir</button>
+                        <a href="{% url 'detalhe_tarefa' tarefa.pk %}" class="btn btn-custom-outline px-4">Cancelar</a>
+                        <button type="submit" class="btn btn-custom-outline text-danger border-danger px-4">Sim, excluir</button>
                     </div>
                 </form>
             </div>

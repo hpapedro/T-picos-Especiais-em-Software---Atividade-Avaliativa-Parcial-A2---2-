@@ -10,9 +10,9 @@
 
 <div class="mb-4">
     <div class="btn-group shadow-sm" role="group">
-        <a href="?filtro=todas" class="btn btn-outline-secondary {% if filtro == 'todas' %}active{% endif %}">Todas</a>
-        <a href="?filtro=minhas" class="btn btn-outline-secondary {% if filtro == 'minhas' %}active{% endif %}">Atribuídas a mim</a>
-        <a href="?filtro=criadas" class="btn btn-outline-secondary {% if filtro == 'criadas' %}active{% endif %}">Criadas por mim</a>
+        <a href="?filtro=todas" class="btn btn-custom-outline {% if filtro == 'todas' %}bg-light border-secondary{% endif %}">Todas</a>
+        <a href="?filtro=minhas" class="btn btn-custom-outline {% if filtro == 'minhas' %}bg-light border-secondary{% endif %}">Atribuídas a mim</a>
+        <a href="?filtro=criadas" class="btn btn-custom-outline {% if filtro == 'criadas' %}bg-light border-secondary{% endif %}">Criadas por mim</a>
     </div>
 </div>
 
@@ -20,7 +20,7 @@
     <!-- Coluna Pendente -->
     <div class="col-md-4 mb-4">
         <div class="kanban-col border d-flex flex-column">
-            <h4 class="h5 mb-3 text-dark fw-bold">Pendente <span class="badge bg-danger rounded-pill float-end">{{ pendentes|length }}</span></h4>
+            <h4 class="h5 mb-3 text-dark fw-bold">Pendente <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill float-end">{{ pendentes|length }}</span></h4>
             <div id="col-pendente" class="flex-grow-1 sortable-list" data-status="Pendente" style="min-height: 50px;">
                 {% for tarefa in pendentes %}
                     <div class="kanban-card" data-id="{{ tarefa.pk }}">
@@ -33,9 +33,9 @@
                                 {% if tarefa.atribuido_a %}@{{ tarefa.atribuido_a.username }}{% else %}Não atribuída{% endif %}
                             </span>
                             <div class="btn-group">
-                                <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline" style="font-size: 0.75rem;">Editar</a>
                                 {% if request.user == tarefa.criador %}
-                                <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+                                <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline text-danger border-danger" style="font-size: 0.75rem;">Excluir</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -50,7 +50,7 @@
     <!-- Coluna Em Andamento -->
     <div class="col-md-4 mb-4">
         <div class="kanban-col border d-flex flex-column">
-            <h4 class="h5 mb-3 text-dark fw-bold">Em Andamento <span class="badge bg-warning text-dark rounded-pill float-end">{{ em_andamento|length }}</span></h4>
+            <h4 class="h5 mb-3 text-dark fw-bold">Em Andamento <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill float-end">{{ em_andamento|length }}</span></h4>
             <div id="col-andamento" class="flex-grow-1 sortable-list" data-status="Em Andamento" style="min-height: 50px;">
                 {% for tarefa in em_andamento %}
                     <div class="kanban-card em-andamento" data-id="{{ tarefa.pk }}">
@@ -63,9 +63,9 @@
                                 {% if tarefa.atribuido_a %}@{{ tarefa.atribuido_a.username }}{% else %}Não atribuída{% endif %}
                             </span>
                             <div class="btn-group">
-                                <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline" style="font-size: 0.75rem;">Editar</a>
                                 {% if request.user == tarefa.criador %}
-                                <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+                                <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline text-danger border-danger" style="font-size: 0.75rem;">Excluir</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -80,7 +80,7 @@
     <!-- Coluna Concluído -->
     <div class="col-md-4 mb-4">
         <div class="kanban-col border d-flex flex-column">
-            <h4 class="h5 mb-3 text-dark fw-bold">Concluído <span class="badge bg-success rounded-pill float-end">{{ concluidos|length }}</span></h4>
+            <h4 class="h5 mb-3 text-dark fw-bold">Concluído <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill float-end">{{ concluidos|length }}</span></h4>
             <div id="col-concluido" class="flex-grow-1 sortable-list" data-status="Concluido" style="min-height: 50px;">
                 {% for tarefa in concluidos %}
                     <div class="kanban-card concluido" data-id="{{ tarefa.pk }}">
@@ -93,9 +93,9 @@
                                 {% if tarefa.atribuido_a %}@{{ tarefa.atribuido_a.username }}{% else %}Não atribuída{% endif %}
                             </span>
                             <div class="btn-group">
-                                <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline" style="font-size: 0.75rem;">Editar</a>
                                 {% if request.user == tarefa.criador %}
-                                <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+                                <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline text-danger border-danger" style="font-size: 0.75rem;">Excluir</a>
                                 {% endif %}
                             </div>
                         </div>

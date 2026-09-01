@@ -3,8 +3,8 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-6">
-        <div class="card shadow-sm mt-3 mb-5 border-0">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <div class="premium-card mt-3 mb-5 border-0">
+            <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center pt-4 pb-2 px-4">
                 <h4 class="mb-0 fw-bold">Trocar Senha</h4>
             </div>
             <div class="card-body p-4">
@@ -13,9 +13,9 @@
                     
                     {% for field in form %}
                         <div class="mb-3">
-                            <label for="{{ field.id_for_label }}" class="form-label fw-semibold">{{ field.label }}</label>
+                            <label for="{{ field.id_for_label }}" class="form-label fw-semibold" style="color: var(--text-main);">{{ field.label }}</label>
                             {% if field.name == "new_password1" or field.name == "new_password2" or field.name == "old_password" %}
-                                <input type="password" name="{{ field.html_name }}" id="{{ field.id_for_label }}" class="form-control" required>
+                                <input type="password" name="{{ field.html_name }}" id="{{ field.id_for_label }}" class="form-control" style="border-radius: 8px;" required>
                             {% else %}
                                 {{ field }}
                             {% endif %}
@@ -31,8 +31,8 @@
                     
                     <hr class="my-4">
                     <div class="d-flex justify-content-between">
-                        <a href="{% url 'kanban' %}" class="btn btn-outline-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-dark">Salvar Nova Senha</button>
+                        <a href="{% url 'kanban' %}" class="btn btn-custom-outline">Cancelar</a>
+                        <button type="submit" class="btn btn-custom-dark">Salvar Nova Senha</button>
                     </div>
                 </form>
             </div>

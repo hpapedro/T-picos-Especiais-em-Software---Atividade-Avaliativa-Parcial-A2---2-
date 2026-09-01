@@ -3,9 +3,9 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card shadow-sm mt-3 mb-5">
-            <div class="card-header bg-white">
-                <h4 class="mb-0 pt-2 pb-2">{{ acao }} Tarefa</h4>
+        <div class="premium-card mt-3 mb-5">
+            <div class="card-header bg-transparent border-0 pt-4 pb-2 px-4">
+                <h4 class="mb-0 fw-bold">{{ acao }} Tarefa</h4>
             </div>
             <div class="card-body p-4">
                 <form method="post">
@@ -39,8 +39,8 @@
                     
                     <hr class="my-4">
                     <div class="d-flex justify-content-between">
-                        <a href="{% url 'kanban' %}" class="btn btn-outline-secondary">Cancelar</a>
-                        <button type="submit" class="btn btn-dark">Salvar Tarefa</button>
+                        <a href="{% url 'kanban' %}" class="btn btn-custom-outline">Cancelar</a>
+                        <button type="submit" class="btn btn-custom-dark px-4">Salvar Tarefa</button>
                     </div>
                 </form>
             </div>
