@@ -1,20 +1,26 @@
-# Gerenciador de Tarefas Colaborativo (Estilo Kanban)
+# Gerenciador de Tarefas - Kanban Dinâmico e Seguro
 
-Este é um projeto desenvolvido como parte da Atividade Avaliativa Parcial A2 - 2 (Tópicos Especiais em Software). Trata-se de uma aplicação web em Python (Django) para gerenciamento colaborativo de tarefas, simulando funcionalidades básicas de ferramentas como o Trello.
+Bem-vindo ao repositório do projeto **Gerenciador de Tarefas**, uma aplicação robusta de gerenciamento de tarefas baseada em Django, agora refatorada para oferecer maior segurança, usabilidade e controle de acesso.
 
-## Funcionalidades Implementadas
-- **Autenticação:** Cadastro de usuários, login (com hash de senha seguro nativo do Django) e logout.
-- **Gerenciamento (CRUD):** Criação, leitura, edição e exclusão de tarefas.
-- **Regra de Negócio de Segurança:** Apenas o usuário que criou a tarefa tem permissão para excluí-la.
-- **Atribuição:** Tarefas podem ser atribuídas a qualquer usuário cadastrado no sistema, promovendo colaboração.
-- **Status e Filtragem Visual (Kanban):** Tarefas são divididas visualmente pelo status ("Pendente", "Em Andamento", "Concluído") num quadro Kanban interativo com recurso de arrastar e soltar (Drag and Drop). Há também botões de filtro rápido ("Todas", "Atribuídas a mim", "Criadas por mim").
-- **Dashboard Centralizado:** Painel geral que exibe métricas das tarefas de todo o grupo e ranking de atribuições.
+## 🚀 Novas Features (Refatoração)
 
-## Tecnologias Utilizadas
-- **Backend:** Python 3 + Django 6.1
-- **Banco de Dados:** SQLite (Relacional nativo do Django)
-- **Frontend:** HTML5, CSS3, e Bootstrap 5 (através de CDN)
-- **Interatividade:** Vanilla JavaScript e SortableJS (para o Drag and Drop do Kanban)
+### 🔒 Autenticação Segura
+O sistema de cadastro de usuários foi aprimorado. Agora, o **e-mail é um campo obrigatório** durante o registro, garantindo uma camada adicional de validação, segurança e possibilidade de comunicação confiável com os usuários.
+
+### 📋 Kanban Dinâmico (Drag-and-Drop e Controle de Acesso)
+A interface de gerenciamento de tarefas foi transformada em um Kanban interativo:
+* **Drag-and-Drop:** Arraste e solte tarefas facilmente entre as colunas para atualizar seus status de forma fluida.
+* **Controle de Ações Restrito:** Botões de ação (como editar, excluir e mover tarefas) estão **bloqueados estritamente para o Usuário Responsável (`atribuido_a`)**. Apenas o usuário designado para a tarefa pode manipulá-la, reforçando as regras de negócio e prevenindo edições acidentais por terceiros.
+
+---
+
+## ⚙️ Instalação e Execução
+
+Siga o passo a passo abaixo para rodar o projeto localmente em sua máquina.
+
+### Pré-requisitos
+* Python 3.8+
+* Pip (Gerenciador de pacotes do Python)
 
 ## Passo a Passo de Instalação e Execução
 

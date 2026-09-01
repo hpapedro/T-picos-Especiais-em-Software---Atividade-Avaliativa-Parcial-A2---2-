@@ -1,34 +1,37 @@
 import json
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.views.decorators.http import require_POST
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
+from django.contrib.auth import login, logout, update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Count
 from .models import Tarefa
-from .forms import TarefaForm
+from .forms import TarefaForm, CustomUserCreationForm
 from django.contrib.auth.models import User
+
 
 def home(request):
     if request.user.is_authenticated:
         return redirect('kanban')
     return render(request, 'tarefas/home.html')
 
+
 def cadastro(request):
     if request.user.is_authenticated:
         return redirect('kanban')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             messages.success(request, 'Cadastro realizado com sucesso!')
             return redirect('kanban')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'tarefas/cadastro.html', {'form': form})
+
 
 def login_view(request):
     if request.user.is_authenticated:
@@ -43,9 +46,11 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'tarefas/login.html', {'form': form})
 
+
 def logout_view(request):
     logout(request)
     return redirect('login')
+
 
 @login_required
 def trocar_senha(request):
@@ -53,7 +58,8 @@ def trocar_senha(request):
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)  # Importante para manter o usuário logado
+            # Importante para manter o usuário logado
+            update_session_auth_hash(request, user)
             messages.success(request, 'Sua senha foi alterada com sucesso!')
             return redirect('kanban')
         else:
@@ -62,21 +68,22 @@ def trocar_senha(request):
         form = PasswordChangeForm(request.user)
     return render(request, 'tarefas/trocar_senha.html', {'form': form})
 
+
 @login_required
 def kanban(request):
     filtro = request.GET.get('filtro', 'todas')
-    
+
     if filtro == 'minhas':
         tarefas = Tarefa.objects.filter(atribuido_a=request.user)
     elif filtro == 'criadas':
         tarefas = Tarefa.objects.filter(criador=request.user)
     else:
         tarefas = Tarefa.objects.all()
-        
+
     pendentes = tarefas.filter(status='Pendente')
     em_andamento = tarefas.filter(status='Em Andamento')
     concluidos = tarefas.filter(status='Concluido')
-    
+
     context = {
         'pendentes': pendentes,
         'em_andamento': em_andamento,
@@ -84,6 +91,7 @@ def kanban(request):
         'filtro': filtro
     }
     return render(request, 'tarefas/kanban.html', context)
+
 
 @login_required
 def criar_tarefa(request):
@@ -97,16 +105,22 @@ def criar_tarefa(request):
             return redirect('kanban')
     else:
         form = TarefaForm()
-    return render(request, 'tarefas/form_tarefa.html', {'form': form, 'acao': 'Nova'})
+    return render(request, 'tarefas/form_tarefa.html',
+                  {'form': form, 'acao': 'Nova'})
+
 
 @login_required
 def detalhe_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
     return render(request, 'tarefas/detalhe_tarefa.html', {'tarefa': tarefa})
 
+
 @login_required
 def editar_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
+    if request.user != tarefa.atribuido_a:
+        return HttpResponseForbidden(
+            "Apenas o responsável pela tarefa pode editá-la.")
     if request.method == 'POST':
         form = TarefaForm(request.POST, instance=tarefa)
         if form.is_valid():
@@ -115,30 +129,36 @@ def editar_tarefa(request, pk):
             return redirect('kanban')
     else:
         form = TarefaForm(instance=tarefa)
-    return render(request, 'tarefas/form_tarefa.html', {'form': form, 'acao': 'Editar'})
+    return render(request, 'tarefas/form_tarefa.html',
+                  {'form': form, 'acao': 'Editar'})
+
 
 @login_required
 def excluir_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
-    
-    if request.user != tarefa.criador:
-        messages.error(request, 'Apenas o criador da tarefa pode excluí-la.')
+
+    if request.user != tarefa.atribuido_a:
+        messages.error(
+            request, 'Apenas o responsável pela tarefa pode excluí-la.'
+        )
         return redirect('kanban')
-        
+
     if request.method == 'POST':
         tarefa.delete()
         messages.success(request, 'Tarefa excluída com sucesso!')
         return redirect('kanban')
     return render(request, 'tarefas/excluir_tarefa.html', {'tarefa': tarefa})
 
+
 @login_required
 def dashboard(request):
     total_tarefas = Tarefa.objects.count()
-    tarefas_por_status = Tarefa.objects.values('status').annotate(total=Count('id'))
+    tarefas_por_status = Tarefa.objects.values(
+        'status').annotate(total=Count('id'))
     tarefas_por_usuario = User.objects.annotate(
         tarefas_atribuidas_count=Count('tarefas_atribuidas')
     ).filter(tarefas_atribuidas_count__gt=0)
-    
+
     context = {
         'total_tarefas': total_tarefas,
         'tarefas_por_status': tarefas_por_status,
@@ -146,17 +166,34 @@ def dashboard(request):
     }
     return render(request, 'tarefas/dashboard.html', context)
 
+
 @login_required
 @require_POST
 def atualizar_status_tarefa(request, pk):
     tarefa = get_object_or_404(Tarefa, pk=pk)
+
+    if request.user != tarefa.atribuido_a:
+        return JsonResponse({
+            'success': False,
+            'error': 'Apenas o responsável pela tarefa pode alterar seu status'
+        }, status=403)
+
     try:
         data = json.loads(request.body)
         novo_status = data.get('status')
-        if novo_status in dict(Tarefa.STATUS_CHOICES).keys() or novo_status in ['Pendente', 'Em Andamento', 'Concluido']:
+        valid_choices = dict(Tarefa.STATUS_CHOICES).keys()
+        if novo_status in valid_choices or novo_status in [
+                'Pendente', 'Em Andamento', 'Concluido']:
             tarefa.status = novo_status
             tarefa.save()
             return JsonResponse({'success': True, 'status': tarefa.status})
-        return JsonResponse({'success': False, 'error': 'Status inválido'}, status=400)
-    except Exception as e:
-        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+        return JsonResponse(
+            {'success': False, 'error': 'Status inválido'}, status=400)
+    except json.JSONDecodeError:
+        return JsonResponse(
+            {'success': False, 'error': 'Formato JSON inválido.'}, status=400)
+    except Exception:
+        return JsonResponse({
+            'success': False,
+            'error': 'Ocorreu um erro interno ao atualizar a tarefa.'
+        }, status=500)

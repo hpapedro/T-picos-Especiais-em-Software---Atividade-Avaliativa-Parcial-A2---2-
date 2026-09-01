@@ -67,9 +67,9 @@
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             position: relative;
             overflow: hidden;
-            cursor: grab;
-        }
-        .kanban-card:active { cursor: grabbing; }
+            }
+        .kanban-card.is-draggable { cursor: grab; }
+        .kanban-card.is-draggable:active { cursor: grabbing; }
         .kanban-card:hover { 
             transform: translateY(-3px); 
             box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04); 

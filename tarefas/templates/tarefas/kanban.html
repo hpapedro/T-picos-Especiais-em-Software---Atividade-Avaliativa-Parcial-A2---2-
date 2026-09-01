@@ -23,7 +23,7 @@
             <h4 class="h5 mb-3 text-dark fw-bold">Pendente <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 rounded-pill float-end">{{ pendentes|length }}</span></h4>
             <div id="col-pendente" class="flex-grow-1 sortable-list" data-status="Pendente" style="min-height: 50px;">
                 {% for tarefa in pendentes %}
-                    <div class="kanban-card" data-id="{{ tarefa.pk }}">
+                    <div class="kanban-card {% if request.user == tarefa.atribuido_a %}is-draggable{% endif %}" data-id="{{ tarefa.pk }}">
                         <div class="d-flex justify-content-between align-items-start">
                             <h5 class="h6 mb-1"><a href="{% url 'detalhe_tarefa' tarefa.pk %}" class="text-decoration-none text-dark fw-bold">{{ tarefa.titulo }}</a></h5>
                         </div>
@@ -33,8 +33,8 @@
                                 {% if tarefa.atribuido_a %}@{{ tarefa.atribuido_a.username }}{% else %}Não atribuída{% endif %}
                             </span>
                             <div class="btn-group">
+                                {% if request.user == tarefa.atribuido_a %}
                                 <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline" style="font-size: 0.75rem;">Editar</a>
-                                {% if request.user == tarefa.criador %}
                                 <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline text-danger border-danger" style="font-size: 0.75rem;">Excluir</a>
                                 {% endif %}
                             </div>
@@ -53,7 +53,7 @@
             <h4 class="h5 mb-3 text-dark fw-bold">Em Andamento <span class="badge bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 rounded-pill float-end">{{ em_andamento|length }}</span></h4>
             <div id="col-andamento" class="flex-grow-1 sortable-list" data-status="Em Andamento" style="min-height: 50px;">
                 {% for tarefa in em_andamento %}
-                    <div class="kanban-card em-andamento" data-id="{{ tarefa.pk }}">
+                    <div class="kanban-card em-andamento {% if request.user == tarefa.atribuido_a %}is-draggable{% endif %}" data-id="{{ tarefa.pk }}">
                         <div class="d-flex justify-content-between align-items-start">
                             <h5 class="h6 mb-1"><a href="{% url 'detalhe_tarefa' tarefa.pk %}" class="text-decoration-none text-dark fw-bold">{{ tarefa.titulo }}</a></h5>
                         </div>
@@ -63,8 +63,8 @@
                                 {% if tarefa.atribuido_a %}@{{ tarefa.atribuido_a.username }}{% else %}Não atribuída{% endif %}
                             </span>
                             <div class="btn-group">
+                                {% if request.user == tarefa.atribuido_a %}
                                 <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline" style="font-size: 0.75rem;">Editar</a>
-                                {% if request.user == tarefa.criador %}
                                 <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline text-danger border-danger" style="font-size: 0.75rem;">Excluir</a>
                                 {% endif %}
                             </div>
@@ -83,7 +83,7 @@
             <h4 class="h5 mb-3 text-dark fw-bold">Concluído <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill float-end">{{ concluidos|length }}</span></h4>
             <div id="col-concluido" class="flex-grow-1 sortable-list" data-status="Concluido" style="min-height: 50px;">
                 {% for tarefa in concluidos %}
-                    <div class="kanban-card concluido" data-id="{{ tarefa.pk }}">
+                    <div class="kanban-card concluido {% if request.user == tarefa.atribuido_a %}is-draggable{% endif %}" data-id="{{ tarefa.pk }}">
                         <div class="d-flex justify-content-between align-items-start">
                             <h5 class="h6 mb-1"><a href="{% url 'detalhe_tarefa' tarefa.pk %}" class="text-decoration-none text-dark fw-bold">{{ tarefa.titulo }}</a></h5>
                         </div>
@@ -93,8 +93,8 @@
                                 {% if tarefa.atribuido_a %}@{{ tarefa.atribuido_a.username }}{% else %}Não atribuída{% endif %}
                             </span>
                             <div class="btn-group">
+                                {% if request.user == tarefa.atribuido_a %}
                                 <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline" style="font-size: 0.75rem;">Editar</a>
-                                {% if request.user == tarefa.criador %}
                                 <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-sm btn-custom-outline text-danger border-danger" style="font-size: 0.75rem;">Excluir</a>
                                 {% endif %}
                             </div>
@@ -120,6 +120,7 @@
         columns.forEach(col => {
             new Sortable(col, {
                 group: 'kanban', // set both lists to same group
+                draggable: '.is-draggable',
                 animation: 150,
                 ghostClass: 'bg-light',
                 onEnd: function (evt) {

@@ -36,8 +36,8 @@
             <div class="card-footer bg-transparent border-0 d-flex justify-content-between pt-2 pb-4 px-4">
                 <a href="{% url 'kanban' %}" class="btn btn-custom-outline">Voltar</a>
                 <div>
+                    {% if request.user == tarefa.atribuido_a %}
                     <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-custom-dark me-2 px-4">Editar</a>
-                    {% if request.user == tarefa.criador %}
                     <a href="{% url 'excluir_tarefa' tarefa.pk %}" class="btn btn-custom-outline text-danger border-danger px-4">Excluir</a>
                     {% endif %}
                 </div>
