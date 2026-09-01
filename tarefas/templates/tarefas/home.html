@@ -1,0 +1,14 @@
+{% extends 'tarefas/base.html' %}
+
+{% block content %}
+<div class="row align-items-center justify-content-center" style="min-height: 60vh;">
+    <div class="col-md-8 text-center">
+        <h1 class="display-4 fw-bold text-dark mb-3">Gerencie suas tarefas com facilidade</h1>
+        <p class="lead text-muted mb-4">Um quadro Kanban colaborativo simples e eficiente para organizar o trabalho da sua equipe.</p>
+        <div>
+            <a href="{% url 'cadastro' %}" class="btn btn-dark btn-lg px-4 me-2">Começar Agora</a>
+            <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg px-4">Já tenho conta</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
